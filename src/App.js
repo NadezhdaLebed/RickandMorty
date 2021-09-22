@@ -12,7 +12,9 @@ const App = () => {
         <RouterComponent />
       </MuiThemeProvider>
     </Router>
-  );
+);
+
 };
 
 export default App;
+

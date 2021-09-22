@@ -1,6 +1,7 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, BrowserRouter } from 'react-router-dom';
 import Layout from '../Layout/Layout';
+import Header from '../Header/Header';
 
 // Route imports
 import HomePage from '../../pages/HomePage/HomePage';
@@ -10,12 +11,15 @@ import LocationPage from '../../pages/LocationPage/LocationPage';
 
 const Router = () => {
   return (
-    <Switch>
-      <Layout exact path="/" component={HomePage} />
-      <Layout path="/character" component={CharacterPage} />
-      <Layout path="/location" component={LocationPage} />
-      <Layout path="/episode" component={EpisodePage} />
-    </Switch>
+    <BrowserRouter>
+        <Header />
+        <Switch>
+          <Layout exact path="/" component={HomePage} />
+          <Layout exact path="/character" component={CharacterPage} />
+          <Layout exact path="/location" component={LocationPage} />
+          <Layout exact path="/episode" component={EpisodePage} />
+        </Switch>
+    </BrowserRouter>
   );
 };
 
