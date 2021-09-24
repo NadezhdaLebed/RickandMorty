@@ -34,7 +34,7 @@ const LocationPage = () => {
   const [location, setLocation] = useState([]);
   const [info, setInfo] = useState();
   const [page, setPage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [locationItem, setLocationItem] = useState(null);
 
   useEffect(() => {
@@ -55,18 +55,17 @@ const LocationPage = () => {
   };
 
   const handleClickOpen = (id) => {
-    const foundCh = location.find((lc) => lc.id === id);
+    const foundLc = location.find((lc) => lc.id === id);
 
     
-    if (foundCh) {
-      setOpen(true);
-      setLocationItem(foundCh);
+    if (foundLc) {
+      setIsModalOpen(true);
+      setLocationItem(foundLc);
     }
   };
 
  const handleClickClose = () => {
-   setOpen(false);
-   setLocationItem(null);
+    setIsModalOpen(false);
  };
 
   return (
@@ -84,7 +83,7 @@ const LocationPage = () => {
       </div>
       <LocationModal 
         locationItem={locationItem}
-        open={open}
+        open={isModalOpen}
         handleClose={handleClickClose}
       />
     </>

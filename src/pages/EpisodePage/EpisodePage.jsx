@@ -34,7 +34,7 @@ const EpisodePage = () => {
   const [episode, setEpisode] = useState([]);
   const [info, setInfo] = useState();
   const [page, setPage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [episodeItem, setEpisodeItem] = useState(null);
 
   useEffect(() => {
@@ -55,19 +55,18 @@ const EpisodePage = () => {
   };
 
   const handleClickOpen = (id) => {
-    const foundCh = episode.find((ch) => ch.id === id);
+    const foundEp = episode.find((ep) => ep.id === id);
 
     
-    if (foundCh) {
-      setOpen(true);
-      setEpisodeItem(foundCh);
+    if (foundEp) {
+      setIsModalOpen(true);
+      setEpisodeItem(foundEp);
     }
   };
 
- const handleClickClose = () => {
-   setOpen(false);
-   setEpisodeItem(null);
- };
+  const handleClickClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -83,7 +82,7 @@ const EpisodePage = () => {
       />
     </div>
     <EpisodeModal
-      open={open}
+      open={isModalOpen}
       handleClose={handleClickClose}
       episodeItem={episodeItem}
     />
