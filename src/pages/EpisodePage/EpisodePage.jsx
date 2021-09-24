@@ -4,7 +4,14 @@ import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
 import EpisodeModal from '../../components/Modals/EpisodeModal';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  title: {
+    textAlign: 'center',
+    borderBottom: '1px solid #00c8c8',
+    paddingBottom: '5px',
+    marginBottom: '20px',
+  },
+});
 
 const columns = [
   {
@@ -24,38 +31,27 @@ const columns = [
 const EpisodePage = () => {
   const classes = useStyles();
 
-  const [episode, SetEpisode] = useState([]);
+  const [episode, setEpisode] = useState([]);
   const [info, setInfo] = useState();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [open, setOpen] = useState(false);
   const [episodeItem, setEpisodeItem] = useState(null);
 
   useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/episode').then(response => {
-      SetEpisode(response.body.results);
+    superagent.get('https://rickandmortyapi.com/api/episode')
+    .query({ page: page + 1 })
+    .then(response => {
+      const { results, info } = response.body;
+      setEpisode(results);
+      setInfo(info)
     })
     .catch(error => {
       console.error(error)
     });
-  }, [SetEpisode]);
-
-  useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/episode').then(response => {
-      setInfo(response.body.info);
-    })
-    .catch(error => {
-      console.error(error)
-    });
-  }, [setInfo]);
+  }, [page]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const handleClickOpen = (id) => {
@@ -73,9 +69,6 @@ const EpisodePage = () => {
    setEpisodeItem(null);
  };
 
-  console.log(episode, 'episode');
-  console.log(info, 'info');
-
   return (
     <>
     <div className={classes.container}>
@@ -83,10 +76,9 @@ const EpisodePage = () => {
       <Table
         page={page}
         columns={columns}
-        rowsPerPage={rowsPerPage}
         rows={episode}
+        count={info && info.count}
         handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
         handleOpen={handleClickOpen}
       />
     </div>

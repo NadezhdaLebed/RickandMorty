@@ -4,7 +4,14 @@ import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
 import LocationModal from '../../components/Modals/LocationModal';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  title: {
+    textAlign: 'center',
+    borderBottom: '1px solid #00c8c8',
+    paddingBottom: '5px',
+    marginBottom: '20px',
+  },
+});
 
 const columns = [
   {
@@ -24,38 +31,27 @@ const columns = [
 const LocationPage = () => {
   const classes = useStyles();
 
-  const [location, SetLocation] = useState([]);
+  const [location, setLocation] = useState([]);
   const [info, setInfo] = useState();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [locationItem, setLocationItem] = useState(null);
 
   useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/location').then(response => {
-      SetLocation(response.body.results);
+    superagent.get('https://rickandmortyapi.com/api/location')
+    .query({ page: page + 1 })
+    .then(response => {
+      const { info, results } = response.body;
+      setLocation(results);
+      setInfo(info);
     })
     .catch(error => {
       console.error(error)
     });
-  }, [SetLocation]);
-
-  useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/episode').then(response => {
-      setInfo(response.body.info);
-    })
-    .catch(error => {
-      console.error(error)
-    });
-  }, [setInfo]);
+  }, [page]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const handleClickOpen = (id) => {
@@ -73,9 +69,6 @@ const LocationPage = () => {
    setLocationItem(null);
  };
 
- console.log(location, 'location');
- console.log(info, 'info');
-
   return (
     <>
       <div className={classes.container}>
@@ -83,10 +76,9 @@ const LocationPage = () => {
         <Table
           page={page}
           columns={columns}
-          rowsPerPage={rowsPerPage}
           rows={location}
+          count={info && info.count}
           handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
           handleOpen={handleClickOpen}
         />
       </div>

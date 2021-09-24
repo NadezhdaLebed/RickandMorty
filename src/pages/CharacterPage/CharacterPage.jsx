@@ -4,7 +4,14 @@ import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
 import CharacterModal from '../../components/Modals/CharacterModal';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  title: {
+    textAlign: 'center',
+    borderBottom: '1px solid #00c8c8',
+    paddingBottom: '5px',
+    marginBottom: '20px',
+  },
+});
 
 const columns = [
     { 
@@ -28,38 +35,27 @@ const columns = [
 const CharacterPage = () => {
   const classes = useStyles();
 
-  const [character, SetCharacter] = useState([]);
+  const [character, setCharacter] = useState([]);
   const [info, setInfo] = useState();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [charactersItem, setCharactersItem] = useState(null);
 
   useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/character').then(response => {
-      SetCharacter(response.body.results);
+    superagent.get('https://rickandmortyapi.com/api/character')
+    .query({ page: page + 1 })
+    .then(response => {
+      const { results, info } = response.body;
+      setCharacter(results);
+      setInfo(info);
     })
     .catch(error => {
       console.error(error)
     });
-  }, [SetCharacter]);
-
-  useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/character').then(response => {
-      setInfo(response.body.info);
-    })
-    .catch(error => {
-      console.error(error)
-    });
-  }, [setInfo]);
+  }, [page]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const handleClickOpen = (id) => {
@@ -77,9 +73,6 @@ const CharacterPage = () => {
     setCharactersItem(null);
   };
 
-  console.log(info, 'info');
-  console.log(character, 'character');
-
   return (
     <>
     <div className={classes.container}>
@@ -87,10 +80,9 @@ const CharacterPage = () => {
       <Table
         page={page}
         columns={columns}
-        rowsPerPage={rowsPerPage}
         rows={character}
+        count={info && info.count}
         handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
         handleOpen={handleClickOpen}
       />
     </div>

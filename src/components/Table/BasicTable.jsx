@@ -14,11 +14,14 @@ const propTypes = {
           id: PropTypes.number,
         }),
     ).isRequired,
-    rowsPerPage: PropTypes.number.isRequired,
     page:  PropTypes.number.isRequired,
     handleChangePage: PropTypes.func.isRequired,
-    handleChangeRowsPerPage: PropTypes.func.isRequired,
     handleOpen: PropTypes.func.isRequired,
+    count: PropTypes.number,
+};
+
+const defaultProps = {
+  count: 0,
 };
 
 const useStyles = makeStyles({
@@ -33,7 +36,7 @@ const useStyles = makeStyles({
 
 const BasicTable = (props) => {
   const classes = useStyles();
-  const { columns, rows, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, handleOpen } = props;
+  const { columns, rows, page, handleChangePage, handleOpen, count } = props;
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -47,9 +50,7 @@ const BasicTable = (props) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
+                {rows.map((row) => (
                     <TableRow
                     className={classes.bodyRow}
                     key={row.id}
@@ -70,18 +71,18 @@ const BasicTable = (props) => {
             </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[20]}
           component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
+          count={count}
+          rowsPerPage={20}
           page={page}
           onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
     />
     </Paper>
   );
 };
 
 BasicTable.propTypes = propTypes;
+BasicTable.defaultProps = defaultProps;
 
 export default BasicTable;
