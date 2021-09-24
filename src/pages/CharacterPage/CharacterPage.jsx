@@ -38,7 +38,7 @@ const CharacterPage = () => {
   const [character, setCharacter] = useState([]);
   const [info, setInfo] = useState();
   const [page, setPage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [charactersItem, setCharactersItem] = useState(null);
 
   useEffect(() => {
@@ -63,14 +63,13 @@ const CharacterPage = () => {
 
      
      if (foundCh) {
-       setOpen(true);
-       setCharactersItem(foundCh);
+      setIsModalOpen(true);
+      setCharactersItem(foundCh);
      }
    };
 
   const handleClickClose = () => {
-    setOpen(false);
-    setCharactersItem(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -88,7 +87,7 @@ const CharacterPage = () => {
     </div>
       <CharacterModal 
         charactersItem={charactersItem}
-        open={open}
+        open={isModalOpen}
         handleClose={handleClickClose}
       />
   </>        
