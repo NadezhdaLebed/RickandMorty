@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { makeStyles } from '@material-ui/core';
+import Layout from '../../components/Layout/Layout';
 
 const useStyles = makeStyles({
   container: {
@@ -7,6 +8,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: '20px',
   },
   title: {
     textAlign: 'center',
@@ -16,14 +18,16 @@ const useStyles = makeStyles({
   },
 });
 
-const HomePage = () => {
+const HomePage: FunctionComponent = () => {
   const classes = useStyles();
 
   return (
+    <Layout>
     <div className={classes.container}>
       <h2 className={classes.title}>Welcome to home Page of Rick and Morty site.</h2>
       <img src="/images/image.png" />
     </div>
+    </Layout>
   );
 };
 

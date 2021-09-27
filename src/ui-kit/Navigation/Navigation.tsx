@@ -1,4 +1,4 @@
-import react from 'react';
+import React, { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     },
 });
 
-const Navigation = () => {
+const Navigation: FunctionComponent = () => {
     const classes = useStyles();
 
     return (

@@ -1,4 +1,4 @@
-import react from'react';
+import React, { FunctionComponent } from'react';
 import { makeStyles } from '@material-ui/core';
 import Navigation from '../../ui-kit/Navigation/Navigation';
 
@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Header = () => {
+const Header: FunctionComponent = () => {
     const classes = useStyles();
 
     return (

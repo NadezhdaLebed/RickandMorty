@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent, MouseEvent } from 'react';
 import superagent from 'superagent';
 import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
 import EpisodeModal from '../../components/Modals/EpisodeModal';
+import Layout from '../../components/Layout/Layout';
+import { Info, Episode } from '../../interfaces';
 
 const useStyles = makeStyles({
+  container: {
+    padding: '20px',
+  },
   title: {
     textAlign: 'center',
     borderBottom: '1px solid #00c8c8',
@@ -28,14 +33,14 @@ const columns = [
   }
 ];
 
-const EpisodePage = () => {
+const EpisodePage: FunctionComponent = () => {
   const classes = useStyles();
 
   const [episode, setEpisode] = useState([]);
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState<Info | null>(null);
   const [page, setPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [episodeItem, setEpisodeItem] = useState(null);
+  const [episodeItem, setEpisodeItem] = useState<null | Episode>(null);
 
   useEffect(() => {
     superagent.get('https://rickandmortyapi.com/api/episode')
@@ -50,12 +55,12 @@ const EpisodePage = () => {
     });
   }, [page]);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleClickOpen = (id) => {
-    const foundEp = episode.find((ep) => ep.id === id);
+  const handleClickOpen = (id: number) => {
+    const foundEp = episode.find((ep: any) => ep.id === id);
 
     
     if (foundEp) {
@@ -69,14 +74,14 @@ const EpisodePage = () => {
   };
 
   return (
-    <>
+    <Layout>
     <div className={classes.container}>
       <h2 className={classes.title}>Episode page</h2>
       <Table
         page={page}
         columns={columns}
         rows={episode}
-        count={info && info.count}
+        count={info && info.count || 0}
         handleChangePage={handleChangePage}
         handleOpen={handleClickOpen}
       />
@@ -86,7 +91,7 @@ const EpisodePage = () => {
       handleClose={handleClickClose}
       episodeItem={episodeItem}
     />
-    </>
+    </Layout>
   );
 };
 

@@ -1,6 +1,5 @@
-import React from 'react';
-import { Switch, BrowserRouter } from 'react-router-dom';
-import Layout from '../Layout/Layout';
+import React, { FunctionComponent } from 'react';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import Header from '../Header/Header';
 
 // Route imports
@@ -9,15 +8,15 @@ import CharacterPage from '../../pages/CharacterPage/CharacterPage';
 import EpisodePage from '../../pages/EpisodePage/EpisodePage';
 import LocationPage from '../../pages/LocationPage/LocationPage';
 
-const Router = () => {
+const Router: FunctionComponent = () => {
   return (
     <BrowserRouter>
         <Header />
         <Switch>
-          <Layout exact path="/" component={HomePage} />
-          <Layout exact path="/character" component={CharacterPage} />
-          <Layout exact path="/location" component={LocationPage} />
-          <Layout exact path="/episode" component={EpisodePage} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/character" component={CharacterPage} />
+          <Route exact path="/location" component={LocationPage} />
+          <Route exact path="/episode" component={EpisodePage} />
         </Switch>
     </BrowserRouter>
   );

@@ -1,7 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { makeStyles } from '@material-ui/core';
+
+interface Props {
+  children?: ReactNode;
+};
 
 const useStyles = makeStyles({
   main: {
@@ -14,25 +16,18 @@ const useStyles = makeStyles({
   }
 });
 
-
-const propTypes = {
-  path: PropTypes.string.isRequired,
-  component: PropTypes.func.isRequired,
-};
-
-const Layout = (props) => {
-  const { path, component } = props;
+const Layout: FunctionComponent = (props: Props) => {
+  const { children } = props;
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <main className={classes.main}>
-        <Route path={path} component={component} exact {...props} />
+        {children}
       </main>
     </React.Fragment>
   );
 };
 
-Layout.propTypes = propTypes;
 
 export default Layout;

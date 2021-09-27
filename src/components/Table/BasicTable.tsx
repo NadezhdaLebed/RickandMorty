@@ -1,63 +1,65 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, MouseEventHandler } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, makeStyles } from '@material-ui/core';
 
-const propTypes = {
-    columns: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        label: PropTypes.string,
-      }),
-    ).isRequired,
-    rows: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-        }),
-    ).isRequired,
-    page:  PropTypes.number.isRequired,
-    handleChangePage: PropTypes.func.isRequired,
-    handleOpen: PropTypes.func.isRequired,
-    count: PropTypes.number,
-};
-
-const defaultProps = {
-  count: 0,
+interface Props {
+  columns: any;
+  rows: any;
+  page: number;
+  handleChangePage: ( event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) => void;
+  handleOpen: (id: number) => void;
+  count: number;
 };
 
 const useStyles = makeStyles({
+  paper: {
+    width: '100%', 
+  },
+  container: {},
+  table: {
+    minWidth: 650,
+  },
   headerItem: {
     fontWeight: 600,
   },
   bodyRow: {
     cursor: 'pointer',
+    th: {
+      '&:last-child': {
+        border: 0
+      },
+    },
+    td: {
+      '&:last-child': {
+        border: 0
+      },
+    },
   },
 });
 
 
-const BasicTable = (props) => {
+const BasicTable: FunctionComponent<Props> = (props: Props) => {
   const classes = useStyles();
   const { columns, rows, page, handleChangePage, handleOpen, count } = props;
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Paper className={classes.paper}>
+        <TableContainer className={classes.container}>
+            <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        {columns.map((column) => {
+                        {columns.map((column: any) => {
                             return  <TableCell key={column.id} className={classes.headerItem}>{column.label}</TableCell>
                         })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {rows.map((row) => (
+                {rows.map((row: any) => (
                     <TableRow
                     className={classes.bodyRow}
                     key={row.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     onClick={() => handleOpen(row.id)}
                     >
-                      {columns.map((column) => {
+                      {columns.map((column: any) => {
                         const value = row[column.id];
                         return (
                           <TableCell component="th" scope="row" key={column.id}>
@@ -81,8 +83,5 @@ const BasicTable = (props) => {
     </Paper>
   );
 };
-
-BasicTable.propTypes = propTypes;
-BasicTable.defaultProps = defaultProps;
 
 export default BasicTable;

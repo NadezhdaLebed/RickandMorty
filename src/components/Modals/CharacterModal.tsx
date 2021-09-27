@@ -1,16 +1,12 @@
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, MouseEventHandler } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, makeStyles } from '@material-ui/core';
+import { Character } from '../../interfaces/character';
 
-const propTypes = {
-    open: PropTypes.bool,
-    handleClose: PropTypes.func.isRequired,
-    charactersItem: PropTypes.shape({}),
-};
-
-const defaultProps = {
-    open: false,
-    charactersItem: null,
-};
+interface Props {
+    open: boolean;
+    handleClose: MouseEventHandler;
+    charactersItem: Character | null;
+}
 
 const useStyles = makeStyles({
     wrapper: {
@@ -37,16 +33,9 @@ const useStyles = makeStyles({
     }
 });
 
-const CharacterModal = (props) => {
+const CharacterModal: FunctionComponent<Props> = (props: Props) => {
     const classes = useStyles();
     const { charactersItem, handleClose, open } = props;
-
-    const {
-        name = '',
-        image = '',
-        gender = '',
-        species = '',
-    } = charactersItem || {};
 
     return (
         <Dialog
@@ -56,7 +45,7 @@ const CharacterModal = (props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Info about ${name} `}
+          {`Info about ${charactersItem && charactersItem.name} `}
         </DialogTitle>
         <DialogContent className={classes.wrapper}>
             <div className={classes.contentBlock}>
@@ -67,13 +56,13 @@ const CharacterModal = (props) => {
                 <p className={classes.mainText}>Status:</p>
             </div>
             <div className={classes.rightBlock}>
-                <p className={classes.text}>{name}</p>
-                <p className={classes.text}>{gender}</p>
-                <p className={classes.text}>{species}</p>
-                <p className={classes.text}>{species}</p>
+                <p className={classes.text}>{charactersItem && charactersItem.name}</p>
+                <p className={classes.text}>{charactersItem && charactersItem.gender}</p>
+                <p className={classes.text}>{charactersItem && charactersItem.species}</p>
+                <p className={classes.text}>{charactersItem && charactersItem.species}</p>
             </div>
             </div>
-            <img className={classes.image} src={image} alt={name} />
+            <img className={classes.image} src={charactersItem && charactersItem.image || undefined} alt={charactersItem && charactersItem.name || undefined} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
@@ -83,8 +72,5 @@ const CharacterModal = (props) => {
       </Dialog>
     );
 };
-
-CharacterModal.propTypes = propTypes;
-CharacterModal.defaultProps = defaultProps;
 
 export default CharacterModal;

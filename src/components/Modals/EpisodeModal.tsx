@@ -1,15 +1,11 @@
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, MouseEventHandler } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, makeStyles } from '@material-ui/core';
+import { Episode } from '../../interfaces/episode';
 
-const propTypes = {
-    open: PropTypes.bool,
-    handleClose: PropTypes.func.isRequired,
-    episodeItem: PropTypes.shape({}),
-};
-
-const defaultProps = {
-    open: false,
-    locationItem: null,
+interface Props {
+    open: boolean;
+    handleClose: MouseEventHandler;
+    episodeItem: Episode | null;
 };
 
 const useStyles = makeStyles({
@@ -31,15 +27,9 @@ const useStyles = makeStyles({
     },
 });
 
-const LocationModal = (props) => {
+const EpisodeModal: FunctionComponent<Props> = (props: Props) => {
     const classes = useStyles();
-    const { locationItem, handleClose, open } = props;
-
-    const {
-        name = '',
-        dimension = '',
-        type = '',
-    } = locationItem || {};
+    const { episodeItem, handleClose, open } = props;
 
     return (
         <Dialog
@@ -49,19 +39,19 @@ const LocationModal = (props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Info about ${name} `}
+          {`Info about ${episodeItem && episodeItem.name} `}
         </DialogTitle>
         <DialogContent className={classes.wrapper}>
             <div className={classes.contentBlock}>
             <div className={classes.leftBlock}>
                 <p className={classes.mainText}>Name:</p>
-                <p className={classes.mainText}>Dimension:</p>
-                <p className={classes.mainText}>Type:</p>
+                <p className={classes.mainText}>Episode:</p>
+                <p className={classes.mainText}>Air date:</p>
             </div>
             <div className={classes.rightBlock}>
-                <p className={classes.text}>{name}</p>
-                <p className={classes.text}>{dimension}</p>
-                <p className={classes.text}>{type}</p>
+                <p className={classes.text}>{episodeItem && episodeItem.name}</p>
+                <p className={classes.text}>{episodeItem && episodeItem.episode}</p>
+                <p className={classes.text}>{episodeItem && episodeItem.air_date}</p>
             </div>
             </div>
         </DialogContent>
@@ -74,7 +64,4 @@ const LocationModal = (props) => {
     );
 };
 
-LocationModal.propTypes = propTypes;
-LocationModal.defaultProps = defaultProps;
-
-export default LocationModal;
+export default EpisodeModal;
