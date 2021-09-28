@@ -39,7 +39,7 @@ const EpisodeModal: FunctionComponent<Props> = (props: Props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Info about ${episodeItem && episodeItem.name} `}
+          {`Info about ${episodeItem?.name} `}
         </DialogTitle>
         <DialogContent className={classes.wrapper}>
             <div className={classes.contentBlock}>
@@ -49,9 +49,9 @@ const EpisodeModal: FunctionComponent<Props> = (props: Props) => {
                 <p className={classes.mainText}>Air date:</p>
             </div>
             <div className={classes.rightBlock}>
-                <p className={classes.text}>{episodeItem && episodeItem.name}</p>
-                <p className={classes.text}>{episodeItem && episodeItem.episode}</p>
-                <p className={classes.text}>{episodeItem && episodeItem.air_date}</p>
+                <p className={classes.text}>{episodeItem?.name}</p>
+                <p className={classes.text}>{episodeItem?.episode}</p>
+                <p className={classes.text}>{episodeItem?.air_date}</p>
             </div>
             </div>
         </DialogContent>

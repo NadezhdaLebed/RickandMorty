@@ -37,6 +37,10 @@ const CharacterModal: FunctionComponent<Props> = (props: Props) => {
     const classes = useStyles();
     const { charactersItem, handleClose, open } = props;
 
+    const characterItemSrc = charactersItem?.image;
+    const characterItemName = charactersItem?.name;
+
+
     return (
         <Dialog
         open={open}
@@ -45,7 +49,7 @@ const CharacterModal: FunctionComponent<Props> = (props: Props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Info about ${charactersItem && charactersItem.name} `}
+          {`Info about ${characterItemName} `}
         </DialogTitle>
         <DialogContent className={classes.wrapper}>
             <div className={classes.contentBlock}>
@@ -56,13 +60,13 @@ const CharacterModal: FunctionComponent<Props> = (props: Props) => {
                 <p className={classes.mainText}>Status:</p>
             </div>
             <div className={classes.rightBlock}>
-                <p className={classes.text}>{charactersItem && charactersItem.name}</p>
-                <p className={classes.text}>{charactersItem && charactersItem.gender}</p>
-                <p className={classes.text}>{charactersItem && charactersItem.species}</p>
-                <p className={classes.text}>{charactersItem && charactersItem.species}</p>
+                <p className={classes.text}>{characterItemName}</p>
+                <p className={classes.text}>{charactersItem?.gender}</p>
+                <p className={classes.text}>{charactersItem?.species}</p>
+                <p className={classes.text}>{charactersItem?.species}</p>
             </div>
             </div>
-            <img className={classes.image} src={charactersItem && charactersItem.image || undefined} alt={charactersItem && charactersItem.name || undefined} />
+            <img className={classes.image} src={characterItemSrc} alt={characterItemName} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>

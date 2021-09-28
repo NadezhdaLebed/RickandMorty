@@ -25,7 +25,7 @@ const HomePage: FunctionComponent = () => {
     <Layout>
     <div className={classes.container}>
       <h2 className={classes.title}>Welcome to home Page of Rick and Morty site.</h2>
-      <img src="/images/image.png" />
+      <img src="/images/image.png" alt="logo" />
     </div>
     </Layout>
   );
