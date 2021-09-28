@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEventHandler } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, makeStyles } from '@material-ui/core';
 
 interface Props {

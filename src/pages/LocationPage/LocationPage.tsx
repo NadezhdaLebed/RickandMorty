@@ -1,10 +1,12 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
-import superagent from 'superagent';
+import React, { useEffect, useState, MouseEvent, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
 import LocationModal from '../../components/Modals/LocationModal';
 import Layout from '../../components/Layout/Layout';
-import { Info, Location } from '../../interfaces';
+import { Location } from '../../interfaces';
+import { getLocationItems } from '../../redux/modules/location/locationActions';
+import { IState } from '../../redux/interfaces';
 
 const useStyles = makeStyles({
   container: {
@@ -36,31 +38,31 @@ const columns = [
 const LocationPage = () => {
   const classes = useStyles();
 
-  const [location, setLocation] = useState([]);
-  const [info, setInfo] = useState<Info | null>(null);
   const [page, setPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [locationItem, setLocationItem] = useState<null | Location>(null);
 
+  const dispatch = useDispatch();
+  const locations = useSelector((state: IState) => state.locations.locations);
+  const info = useSelector((state: IState) => state.locations.info);
+
+  const getLocationsItems = useCallback(
+    () => {
+      dispatch(getLocationItems(page))
+    },
+    [dispatch, page],
+  )
+
   useEffect(() => {
-    superagent.get('https://rickandmortyapi.com/api/location')
-    .query({ page: page + 1 })
-    .then(response => {
-      const { info, results } = response.body;
-      setLocation(results);
-      setInfo(info);
-    })
-    .catch(error => {
-      console.error(error)
-    });
-  }, [page]);
+    getLocationsItems()
+  }, [getLocationsItems]);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
   const handleClickOpen = (id: number) => {
-    const foundLc = location.find((lc: any) => lc.id === id);
+    const foundLc = locations.find((lc: any) => lc.id === id);
 
     
     if (foundLc) {
@@ -80,8 +82,8 @@ const LocationPage = () => {
         <Table
           page={page}
           columns={columns}
-          rows={location}
-          count={info && info.count || 0}
+          rows={locations}
+          count={(info && info.count) || 0}
           handleChangePage={handleChangePage}
           handleOpen={handleClickOpen}
         />

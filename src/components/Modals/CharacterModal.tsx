@@ -62,7 +62,7 @@ const CharacterModal: FunctionComponent<Props> = (props: Props) => {
                 <p className={classes.text}>{charactersItem && charactersItem.species}</p>
             </div>
             </div>
-            <img className={classes.image} src={charactersItem && charactersItem.image || undefined} alt={charactersItem && charactersItem.name || undefined} />
+            <img className={classes.image} src={(charactersItem && charactersItem.image) || undefined} alt={(charactersItem && charactersItem.name) || undefined} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
