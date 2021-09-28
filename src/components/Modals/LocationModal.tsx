@@ -39,7 +39,7 @@ const LocationModal: FunctionComponent<Props> = (props: Props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {`Info about ${locationItem && locationItem.name} `}
+          {`Info about ${locationItem?.name} `}
         </DialogTitle>
         <DialogContent className={classes.wrapper}>
             <div className={classes.contentBlock}>
@@ -49,9 +49,9 @@ const LocationModal: FunctionComponent<Props> = (props: Props) => {
                 <p className={classes.mainText}>Type:</p>
             </div>
             <div className={classes.rightBlock}>
-                <p className={classes.text}>{locationItem && locationItem.name}</p>
-                <p className={classes.text}>{locationItem && locationItem.dimension}</p>
-                <p className={classes.text}>{locationItem && locationItem.type}</p>
+                <p className={classes.text}>{locationItem?.name}</p>
+                <p className={classes.text}>{locationItem?.dimension}</p>
+                <p className={classes.text}>{locationItem?.type}</p>
             </div>
             </div>
         </DialogContent>

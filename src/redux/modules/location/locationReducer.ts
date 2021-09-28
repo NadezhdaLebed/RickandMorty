@@ -1,13 +1,9 @@
 import { GET_LOCATION_ITEMS_FULFILLED, GET_LOCATION_ITEMS_PENDING, GET_LOCATION_ITEMS_REJECTED } from '../../actions/location';
 import { LocationState, ActionType } from '../../interfaces';
-import { loadState } from '../../store/localStorage';
-
-const initialState = loadState();
-const { info = null } = initialState || {};
 
 const defaultState: LocationState = {
   locations: [],
-  info,
+  info: null,
   error: null,
 }
 
@@ -22,6 +18,8 @@ export default (state = defaultState, action: ActionType) => {
     case GET_LOCATION_ITEMS_REJECTED:
       return {
         ...state,
+        locations: [],
+        info: null,
         error: action.payload.response
       };
     default:

@@ -1,13 +1,9 @@
 import { GET_EPISODE_ITEMS_FULFILLED, GET_EPISODE_ITEMS_PENDING, GET_EPISODE_ITEMS_REJECTED } from '../../actions/episode';
 import { EpisodeState, ActionType } from '../../interfaces';
-import { loadState } from '../../store/localStorage';
-
-const initialState = loadState();
-const { info = null } = initialState || {};
 
 const defaultState: EpisodeState = {
   episodes: [],
-  info,
+  info: null,
   error: null,
 }
 
@@ -22,6 +18,8 @@ export default (state = defaultState, action: ActionType) => {
     case GET_EPISODE_ITEMS_REJECTED:
       return {
         ...state,
+        episodes: [],
+        info: null,
         error: action.payload.response
       };
     default: 

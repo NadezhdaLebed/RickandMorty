@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent, useCallback } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
@@ -46,16 +46,9 @@ const LocationPage = () => {
   const locations = useSelector((state: IState) => state.locations.locations);
   const info = useSelector((state: IState) => state.locations.info);
 
-  const getLocationsItems = useCallback(
-    () => {
-      dispatch(getLocationItems(page))
-    },
-    [dispatch, page],
-  )
-
   useEffect(() => {
-    getLocationsItems()
-  }, [getLocationsItems]);
+    dispatch(getLocationItems(page));
+  }, [dispatch, page]);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -83,7 +76,7 @@ const LocationPage = () => {
           page={page}
           columns={columns}
           rows={locations}
-          count={(info && info.count) || 0}
+          count={info?.count || 0}
           handleChangePage={handleChangePage}
           handleOpen={handleClickOpen}
         />

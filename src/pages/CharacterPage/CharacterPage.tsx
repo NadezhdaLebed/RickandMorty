@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FunctionComponent, MouseEvent, useCallback } from 'react';
+import React, { useEffect, useState, FunctionComponent, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
@@ -50,17 +50,9 @@ const CharacterPage: FunctionComponent = () => {
   const characters = useSelector((state: IState) => state.characters.characters);
   const info = useSelector((state: IState) => state.characters.info);
 
-  const getCharactersItems = useCallback(
-    () => {
-      dispatch(getCharacterItems(page))
-
-    },
-    [dispatch, page],
-  );
-
   useEffect(() => {
-    getCharactersItems()
-  }, [getCharactersItems]);
+    dispatch(getCharacterItems(page));
+  }, [page, dispatch]);
 
   const handleChangePage = ( event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -88,7 +80,7 @@ const CharacterPage: FunctionComponent = () => {
         page={page}
         columns={columns}
         rows={characters}
-        count={(info && info.count) || 0}
+        count={info?.count || 0}
         handleChangePage={handleChangePage}
         handleOpen={handleClickOpen}
       />

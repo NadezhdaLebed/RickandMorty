@@ -16,18 +16,18 @@ export interface IState {
 
 export interface CharacterState {
     characters: Characters;
-    info: Info;
+    info: Info | null;
     error: Response | any;
 }
 
 export interface LocationState {
     locations: Locations;
-    info: Info;
+    info: Info | null;
     error: Response | any;
 }
 
 export interface EpisodeState {
     episodes: Episodes;
-    info: Info;
+    info: Info | null;
     error: Response | any;
 }

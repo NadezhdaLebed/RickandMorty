@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FunctionComponent, MouseEvent, useCallback } from 'react';
+import React, { useEffect, useState, FunctionComponent, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import Table from '../../components/Table/BasicTable';
@@ -46,16 +46,9 @@ const EpisodePage: FunctionComponent = () => {
   const episodes = useSelector((state: IState) => state.episodes.episodes);
   const info = useSelector((state: IState) => state.episodes.info);
 
-  const getEpisodesItems = useCallback(
-    () => {
-      dispatch(getEpisodeItems(page))
-    },
-    [dispatch, page],
-  );
-
   useEffect(() => {
-    getEpisodesItems();
-  }, [getEpisodesItems]);
+    dispatch(getEpisodeItems(page));
+  }, [page, dispatch]);
 
   const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -83,7 +76,7 @@ const EpisodePage: FunctionComponent = () => {
         page={page}
         columns={columns}
         rows={episodes}
-        count={(info && info.count) || 0}
+        count={info?.count || 0}
         handleChangePage={handleChangePage}
         handleOpen={handleClickOpen}
       />

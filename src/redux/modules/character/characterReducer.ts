@@ -1,14 +1,10 @@
 import { GET_CHARACTER_ITEMS_PENDING, GET_CHARACTER_ITEMS_FULFILLED, GET_CHARACTER_ITEMS_REJECTED } from '../../actions/character';
 import { CharacterState, ActionType } from '../../interfaces';
-import { loadState } from '../../store/localStorage';
 
-
-const initialState = loadState();
-const { info = null } = initialState || {};
 
 const defaultState: CharacterState = {
     characters: [],
-    info,
+    info: null,
     error: null,
 }
 
@@ -24,6 +20,7 @@ export default (state = defaultState, action: ActionType) => {
             return {
                 ...state,
                 characters: [],
+                info: null,
                 error: action.payload.response
             };
         default: 
